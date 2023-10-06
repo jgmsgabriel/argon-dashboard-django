@@ -1,35 +1,10 @@
-from django import template
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
+import requests
 from django.shortcuts import render
-from django.template import loader
-from django.urls import reverse
 
-def teste(request):
-    #context = {'segment': 'index'}
+def testeturbo(request):
+    response = requests.get('https://us-south.functions.appdomain.cloud/api/v1/web/c1e8f27c-3a2a-4d4e-aed8-20dc5e0b4005/Turbonomic/buy-ri-recommendations.json').json()
+    return render(request, 'apiturbo/teste.html', {'response':response})
+
     #return render(request, "apiturbo/teste.html")
-    #html_template = loader.get_template('apiturbo/teste.html')
-    return HttpResponse('test api')
-
-def pages(request):
-    context = {}
-    try:
-
-        load_template = request.path.split('/')[-1]
-
-        if load_template == 'admin':
-            return HttpResponseRedirect(reverse('admin:index'))
-        context['segment'] = load_template
-
-        html_template = loader.get_template('apiturbo/' + load_template)
-        return HttpResponse(html_template.render(context, request))
-
-    except template.TemplateDoesNotExist:
-
-        html_template = loader.get_template('home/page-404.html')
-        return HttpResponse(html_template.render(context, request))
-
-    except:
-        html_template = loader.get_template('home/page-500.html')
-        return HttpResponse(html_template.render(context, request))
-
+    #return render(request, "accounts/login.html")

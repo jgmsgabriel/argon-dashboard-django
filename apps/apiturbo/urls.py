@@ -1,8 +1,8 @@
-from django.urls import path, re_path
+from django.urls import path
 from apps.apiturbo import views
 
 urlpatterns = [
 
-    path('teste/', views.teste, name='teste'),
+    path('testeturbo/', views.testeturbo, name='testeturbo'),
 
 ]
