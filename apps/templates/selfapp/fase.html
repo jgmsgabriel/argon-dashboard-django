@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Nome</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Aqui estamos falando que a variavel ( pergunta ) ira corresponder a variavel que vem de views ( pergunta_tex ) com os dados colocados nela -->
+          {% for fase in nom_fase %}
+          <tr>
+            <!-- Aqui estamos pegando a variavel pergunta que recebeu os dados e pedindo um dado especifico - EX: pergunta.id -->
+            <!-- Para editar algum dado de um campo no banco de dados precisamos referenciar o dado que queremos mudar/deletar, fazemos isso enviando junto da url o id -->
+            <td>{{ fase.id }} -</td>
+            <td>
+              {{ fase.nom_fases }} -
+              <a
+                style="text-decoration: none"
+                href="{% url 'dominio' fase.id %}"
+                >Perguntas</a
+              >
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <br />
+    <br />
+    <br />
+  </body>
+</html>

@@ -1,0 +1,35 @@
+{% load static %}
+ 
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <title>Document</title>
+  </head>
+  <body>
+    <ul class="list-group">
+      <li class="list-group-item active" aria-current="true">{{dominio_tex.nom_Dominio}}</li><br>
+      {% for respostas in resposta %}
+      <li class="list-group-item" style="background-color: black; color: white;">{{ respostas.Pergunta }}</li>
+      <li class="list-group-item">
+        {% for alter in respostas.Alternativas %}
+        <input class="form-check-input me-1" type="radio" name="atual-{{ respostas.Pergunta.id }}" value="" aria-label="...">
+        
+        
+        <input class="form-check-input me-1" type="radio" name="desejado-{{ respostas.Pergunta.id }}" value="" aria-label="...">
+        {{ alter }}
+        <br><br>
+        {% endfor %}
+      </li><br>
+      {% endfor %}
+    </ul>
+    
+    <br>
+    <br>
+    <br>
+  
+  </body>
+</html>
