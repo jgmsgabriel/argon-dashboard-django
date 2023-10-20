@@ -24,6 +24,12 @@
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link {% if 'index' in segment %} active {% endif %}" href="{% url 'fase' %}">
+              <i class="ni single-copy-04 text-primary"></i>
+              <span class="nav-link-text">Self Assessemnte</span>
+            </a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link {% if 'profile' in segment %} active {% endif %}" href="/profile.html">
               <i class="ni ni-single-02 text-yellow"></i>
               <span class="nav-link-text">Profile</span>

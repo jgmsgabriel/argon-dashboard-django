@@ -1,0 +1,116 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Dashboard {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<!-- Header -->
+<div class="header bg-dark pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-white d-inline-block mb-0">Portal Z-Act</h6>
+                    <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                            <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="#">Dashboards</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">SelfPage</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Page content -->
+<div class="container-fluid mt--6">
+    <!-- Page content -->
+    <div class="row">
+        <div class="col">
+            <div class="card text-center">
+                <!-- Card header -->
+                <div class="card-body">
+                    <h3 class="card-title" style="font-size: 1.6rem;">Welcome, João, to the Z-Act Portal!</h3>
+                    <p class="card-text" >Explore, learn and apply the knowledge we share here. This is the first step towards effective financial management and intelligent use of cloud services.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Self Assessesment -->
+    <div class="row">
+        <div class="col">
+            <div class="card text-center">
+                <!-- Card header -->
+                <div class="card-body">
+                    <h3 class="card-title" style="font-size: 1.6rem;">Self Assessesment</h3>
+                    <p class="card-text" >How about starting with our FinOps self-assessment tool. This Self Assessment will help you understand how effective the financial management of your cloud operations is. Discover areas for improvement and optimize your cloud spend. You need to answer 30 questions, divided into 6 domains. For best results, answer all questions.</p>
+                    <a href="/selfpage.html" class="btn btn-primary">Start Self Assessesment</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Turbonomic -->
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <!-- Card header -->
+                <div class="card-body">
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <p style="text-align: center;">-- Turbonomic --</p>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Flexera -->
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <!-- Card header -->
+                <div class="card-body">
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <p style="text-align: center;">-- Cloudability --</p>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include "includes/footer.html" %}
+
+</div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+
+<script src="/static/assets/vendor/chart.js/dist/Chart.min.js"></script>
+<script src="/static/assets/vendor/chart.js/dist/Chart.extension.js"></script>
+
+{% endblock javascripts %}
