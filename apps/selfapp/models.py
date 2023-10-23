@@ -1,8 +1,9 @@
-from django.db import models
-from datetime import timezone
 from decimal import Decimal
 from django.contrib.auth.models import User
+from django.db import models
+from django.utils import timezone
 
+# Create your models here.
 #Testes Self Assessment...
 # 1 - Criando as tabelas.
 class Fase(models.Model):
