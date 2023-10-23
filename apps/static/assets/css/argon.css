@@ -76,6 +76,14 @@ body {
   text-align: left;
   background-color: #f8f9fe; }
 
+.form-check-lg .form-check-input {
+    transform: scale(1.8); /* Aumenta o tamanho do radio button */
+}
+
+.check-ml{
+  margin-left: 0.42rem;
+}
+
 [tabindex="-1"]:focus:not(:focus-visible) {
   outline: 0 !important; }
 
