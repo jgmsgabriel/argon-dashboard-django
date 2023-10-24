@@ -135,8 +135,11 @@ def list_fase(request):
             estado_cliente = "Run"
         
         obj = {
-            "porcentagem": round(porcentagem_atual*100,2),
+            "porcentagem": round(porcentagem_atual*100,1),
+            "indice": cont,
             "estado_cliente": estado_cliente,
+            "quantidade_perguntas": aux_perg_total,
+            "quantidade_perguntas_respondidas": respostas_por_dominio_percento,
             "somatoria_atual": somatoria_atual,
             "dominio_id": dominio_id,
             "nome_dominio": nome_dominio,
