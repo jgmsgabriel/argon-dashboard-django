@@ -41,7 +41,10 @@ def list_fase(request):
     aux = []
     todas_perguntas = Pergunta.objects.all()
     numero_de_perguntas_total = len(todas_perguntas) * 2
-    total_porcento_concluido = (numero_de_perguntas_respondidas/numero_de_perguntas_total)*100
+    if numero_de_perguntas_total != 0:
+        total_porcento_concluido = (numero_de_perguntas_respondidas/numero_de_perguntas_total)*100
+    else: 
+        total_porcento_concluido = 0
     for item in dominio_tex:
         obj_dom_aux = {
             "id_dominio": item.id,
@@ -54,7 +57,7 @@ def list_fase(request):
             aux_numero_de_respostas = 0
             if respostas_por_dominio:
                 if respostas_por_dominio[0].estado_atual !=None and respostas_por_dominio[0].estado_desejado !=None:
-                    aux_numero_de_respostas += 2
+                    aux_numero_de_respostas += 1
                     obj={
                         "valor_rating": respostas_por_dominio[0].estado_atual.valor_rating,
                         "rating_desejado": respostas_por_dominio[0].estado_desejado.valor_rating,
@@ -64,7 +67,7 @@ def list_fase(request):
                         "numero_perguntas_total": len(pergunta_por_dominio)
                     }
                 elif respostas_por_dominio[0].estado_atual == None and respostas_por_dominio[0].estado_desejado !=None:
-                    aux_numero_de_respostas += 1
+                    aux_numero_de_respostas += 0
                     obj={
                         "valor_rating": 0,
                         "rating_desejado": respostas_por_dominio[0].estado_desejado.valor_rating,
@@ -74,7 +77,7 @@ def list_fase(request):
                         "numero_perguntas_total": len(pergunta_por_dominio)
                     }
                 elif respostas_por_dominio[0].estado_atual != None and respostas_por_dominio[0].estado_desejado ==None:
-                    aux_numero_de_respostas += 1
+                    aux_numero_de_respostas += 0
                     obj={
                         "valor_rating": respostas_por_dominio[0].estado_atual.valor_rating,
                         "rating_desejado": 0,
@@ -102,7 +105,7 @@ def list_fase(request):
         cont+=1
         somatoria_atual = 0
         somatoria_desejado = 0
-        aux_perg_total = 1
+        aux_perg_total = 0
         dominio_id = 0
         nome_dominio = ""
         respostas_por_dominio_percento=0
@@ -118,10 +121,14 @@ def list_fase(request):
             #respostas_por_dominio_percento += resp["respostas"]
             dominio_id = lista_de_dominios[cont-1]["id_dominio"]
             nome_dominio = lista_de_dominios[cont-1]["nome_dominio"]
-
-        aux_response = (respostas_por_dominio_percento/(aux_perg_total*2))*100
-        porcentagem_atual = somatoria_atual/(aux_perg_total*4)
-        porcentagem_desejado = somatoria_desejado/(aux_perg_total*4)
+        if aux_perg_total != 0:
+            aux_response = (respostas_por_dominio_percento/(aux_perg_total))*100
+            porcentagem_atual = somatoria_atual/(aux_perg_total*4)
+            porcentagem_desejado = somatoria_desejado/(aux_perg_total*4)
+        else:
+            aux_response = 0
+            porcentagem_atual = 0
+            porcentagem_desejado = 0
         dado_grafico_atual = porcentagem_atual*4
         dado_grafico_desejado = porcentagem_desejado*4
         estado_cliente = ""
@@ -133,12 +140,15 @@ def list_fase(request):
             estado_cliente = "Walk"
         else:
             estado_cliente = "Run"
+
+        numero_de_perguntas_no_dominio = Pergunta.objects.all()
+        numero_de_perguntas_no_dominio = Pergunta.objects.filter(dominio_id=dominio_id)
         
         obj = {
             "porcentagem": round(porcentagem_atual*100,1),
             "indice": cont,
             "estado_cliente": estado_cliente,
-            "quantidade_perguntas": aux_perg_total,
+            "quantidade_perguntas": len(numero_de_perguntas_no_dominio),
             "quantidade_perguntas_respondidas": respostas_por_dominio_percento,
             "somatoria_atual": somatoria_atual,
             "dominio_id": dominio_id,
@@ -188,7 +198,10 @@ def list_fase(request):
         cont_pos += 1
         porcentagem_total += item['porcentagem']
     
-    porcentagem_total = round(porcentagem_total/cont_pos,2)
+    if cont_pos != 0:
+        porcentagem_total = round(porcentagem_total/cont_pos,2)
+    else:
+        porcentagem_total = 0
     estado_cliente = ""
     if porcentagem_total < 25:
         estado_cliente = "Foundational"
