@@ -7,6 +7,8 @@
 
 {% block content %}
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  
+
 <!-- Header -->
 <div class="header bg-dark pb-6">
   <div class="container-fluid">
@@ -211,12 +213,62 @@
         -->
         <div class="d-flex justify-content-between mt-4">
           <div>
-            <a type="button" class="btn btn-secondary">Voltar</a>
+            {% if paginacao.dominio_anterior != -1 %}
+            <p>{{ paginacao.dominio_anterior }}</p>
+            <a id="Anterior_Botao" href="#" type="button" class="btn btn-secondary">Voltar</a>
+            <script>
+              $(document).ready(function () {
+                $('#Anterior_Botao').click(function (e) {
+                  e.preventDefault(); // Impede que o link seja seguido imediatamente
+            
+                  // Envie o formulário usando AJAX
+                  $.ajax({
+                    url: $('#meuFormulario').attr('action'),
+                    method: 'POST',
+                    data: $('#meuFormulario').serialize(),
+                    success: function (data) {
+                      // O formulário foi enviado com sucesso, agora redirecione o usuário
+                      window.location.href = '{% url "pergunta_por_dominio" paginacao.dominio_anterior %}';
+                    },
+                    error: function () {
+                      // Lidar com erros, se houver
+                      alert('Ocorreu um erro ao enviar o formulário.');
+                    }
+                  });
+                });
+              });
+            </script>
+            {% endif %}
             <a href="/fase/" type="button" class="btn btn-secondary">Fechar</a>
           </div>
           <div>
             <input type="submit" class="btn btn-primary" style="color: white" value="Salvar">
-            <a type="button" class="btn btn-primary" style="color: white">Próximo</a>
+            {% if paginacao.proximo_dominio != -1 %}
+            <!--<a id="Proximo_Botao" href="#"><button>{{paginacao.dominio_proximo_nom}}</button></a>-->
+            <a id="Proximo_Botao" href="#" type="button" class="btn btn-primary" style="color: white">Próximo</a>
+            <script>
+              $(document).ready(function () {
+                $('#Proximo_Botao').click(function (e) {
+                  e.preventDefault(); // Impede que o link seja seguido imediatamente
+
+                  // Envie o formulário usando AJAX
+                  $.ajax({
+                    url: $('#meuFormulario').attr('action'),
+                    method: 'POST',
+                    data: $('#meuFormulario').serialize(),
+                    success: function (data) {
+                      // O formulário foi enviado com sucesso, agora redirecione o usuário
+                      window.location.href = '{% url "pergunta_por_dominio" paginacao.proximo_dominio %}';
+                    },
+                    error: function () {
+                      // Lidar com erros, se houver
+                      alert('Ocorreu um erro ao enviar o formulário.');
+                    }
+                  });
+                });
+              });
+            </script>
+            {% endif %}
           </div>
         </div>
       </form>

@@ -66,11 +66,18 @@
                                 <!--CORRIGIR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
                                 <td>
                                     <span class="badge badge-dot mr-4">
-                                        {% if item.porcentagem_respondida < 100 %} <i class="bg-danger"></i>
-                                            <span class="status">pending</span>
+                                        {% if item.porcentagem_respondida == 0 %}
+                                            <i class="bg-danger"></i>
+                                            <span class="status">not started</span>
+                                        {% elif item.porcentagem_respondida == 100 %}
+                                                <i class="bg-success"></i>
+                                                <span class="status">completed</span>
+                                            {% elif item.porcentagem_respondida > 50 %}
+                                                <i class="bg-warning"></i>
+                                                <span class="status">pending</span>
                                             {% else %}
-                                            <i class="bg-success"></i>
-                                            <span class="status">completed</span>
+                                                <i class="bg-danger"></i>
+                                                <span class="status">pending</span>
                                             {% endif %}
                                     </span>
                                 </td>
@@ -79,9 +86,9 @@
                                         <span class="completion mr-2">{{item.porcentagem_respondida}}%</span>
                                         <div>
                                             <div class="progress">
-                                                <div class="progress-bar bg-danger" role="progressbar"
+                                                <div {% if item.porcentagem_respondida == 100 %} class="progress-bar bg-success" {% elif item.porcentagem_respondida > 50 %} class="progress-bar bg-warning" {% else %} class="progress-bar bg-danger" {% endif %} role="progressbar"
                                                     aria-valuenow="{{item.porcentagem_respondida}}" aria-valuemin="0"
-                                                    aria-valuemax="100" style="width: 40%;"></div>
+                                                    aria-valuemax="100" style="width: {{item.porcentagem_respondida}}%;"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -283,8 +290,7 @@
                         </div>
                     </div>
                     <p class="mt-3 mb-0 text-sm">
-                        <span class="text-uppercase mr-2" style="font-size: 1.2rem;">{{ porcentagem_total.porcentagem
-                            }}</span>
+                        <span class="text-uppercase mr-2" style="font-size: 1.2rem;">{{ porcentagem_total.porcentagem }}</span>
                         <span class="text-nowrap">- Since last month</span>
                     </p>
                 </div>
@@ -521,36 +527,30 @@
                 <div class="card-header border-0">
                     <div class="row align-items-center">
                         <div class="col">
+                            <h3 class="mb-0">FinOps Fases Overview</h3>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div id='myDivFase'><!-- Plotly chart will be drawn inside this DIV --></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-header border-0">
+                    <div class="row align-items-center">
+                        <div class="col">
                             <h3 class="mb-0">FinOps Maturity Overview</h3>
                         </div>
                     </div>
                 </div>
                 <div>
+                    <div id='myDivDominio'><!-- Plotly chart will be drawn inside this DIV --></div>
                 </div>
-                <script>
-                    data = [{
-                        type: 'scatterpolar',
-                        r: [39, 28, 8, 7, 28, 39],
-                        theta: ['A', 'B', 'C', 'D', 'E', 'A'],
-                        fill: 'toself'
-                    }]
-
-                    layout = {
-                        polar: {
-                            radialaxis: {
-                                visible: true,
-                                range: [0, 50]
-                            }
-                        },
-                        showlegend: false
-                    }
-
-                    Plotly.newPlot("myDiv", data, layout)
-                </script>
             </div>
         </div>
     </div>
-
     {% include "includes/footer.html" %}
 
 </div>
@@ -559,6 +559,90 @@
 
 <!-- Specific JS goes HERE -->
 {% block javascripts %}
+<script>
+    var jsonString = '{{ home_respostas|escapejs }}';
+    var testeRespostas;
+    jsonString = jsonString.replace(/'/g, '"');
+    jsonString = jsonString.replace(/Decimal\("([\d.]+)"\)/g, '$1');
+    var objeto = JSON.parse(jsonString);
+    let vetor_dominios = [], vetor_dados_atuais = [], vetor_dados_desejados = []
+    objeto.forEach(function (elemento) {
+        // Faça algo com cada elemento, por exemplo, imprima o valor
+        vetor_dominios.push(elemento.nome_dominio)
+        vetor_dados_atuais.push(elemento.dado_grafico_atual)
+        vetor_dados_desejados.push(elemento.dado_grafico_desejado)
+    });
+
+    data = [
+        {
+            type: 'scatterpolar',
+            r: vetor_dados_desejados,
+            theta: vetor_dominios,
+            fill: 'toself',
+            name: 'Classificação Desejada'
+        },
+        {
+            type: 'scatterpolar',
+            r: vetor_dados_atuais,
+            theta: vetor_dominios,
+            fill: 'toself',
+            name: 'Classificação Atual'
+        },
+
+    ]
+
+    layout = {
+        polar: {
+            radialaxis: {
+                visible: true,
+                range: [0, 4],
+                dtick: 1
+            }
+        }
+    }
+
+    Plotly.newPlot("myDivDominio", data, layout)
+
+
+    var jsonString_fase = '{{ porcentagem_por_fase|escapejs }}';
+    console.log(jsonString_fase)
+    jsonString_fase = jsonString_fase.replace(/'/g, '"');
+    jsonString_fase = jsonString_fase.replace(/Decimal\("([\d.]+)"\)/g, '$1');
+    var objeto_fase = JSON.parse(jsonString_fase);
+    console.log(objeto_fase)
+    let vetor_fases = [], vetor_dados_fase = []
+    objeto_fase.forEach(function (elemento) {
+        // Faça algo com cada elemento, por exemplo, imprima o valor
+        vetor_fases.push(elemento.fase)
+        vetor_dados_fase.push(elemento.dado_grafico)
+    });
+
+    console.log(vetor_fases)
+    console.log(vetor_dados_fase)
+
+    data_fase = [
+        {
+            type: 'scatterpolar',
+            r: vetor_dados_fase,
+            theta: vetor_fases,
+            fill: 'toself',
+            name: 'Classificação Atual'
+        }
+
+    ]
+
+    layout_fase = {
+        polar: {
+            radialaxis: {
+                visible: true,
+                range: [0, 4],
+                dtick: 1
+            }
+        }
+    }
+
+    Plotly.newPlot("myDivFase", data_fase, layout_fase)
+</script>
 <script src="/static/assets/vendor/chart.js/dist/Chart.min.js"></script>
 <script src="/static/assets/vendor/chart.js/dist/Chart.extension.js"></script>
 

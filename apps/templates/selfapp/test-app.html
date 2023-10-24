@@ -1,1 +1,174 @@
-Teste Self
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src='https://cdn.plot.ly/plotly-2.26.0.min.js'></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <h2>Teste Grafico</h2>
+    <div id='myDiv'><!-- Plotly chart will be drawn inside this DIV --></div>
+    <div id='myDivDominio'><!-- Plotly chart will be drawn inside this DIV --></div>
+    <div id='myDivFase'><!-- Plotly chart will be drawn inside this DIV --></div>
+</body>
+<footer>
+    <script>
+        data = [{
+            type: 'scatterpolar',
+            r: [39, 28, 8, 7, 28, 39],
+            theta: ['A', 'B', 'C', 'D', 'E', 'A'],
+            fill: 'toself'
+        }]
+
+        layout = {
+            polar: {
+                radialaxis: {
+                    visible: true,
+                    range: [0, 50]
+                }
+            },
+            showlegend: false
+        }
+
+        Plotly.newPlot("myDiv", data, layout)
+    </script>
+    <script>
+        var jsonString = '{{ home_respostas|escapejs }}';
+        var testeRespostas;
+        jsonString = jsonString.replace(/'/g, '"');
+        jsonString = jsonString.replace(/Decimal\("([\d.]+)"\)/g, '$1');
+        var objeto = JSON.parse(jsonString);
+        let vetor_dominios = [], vetor_dados_atuais = [], vetor_dados_desejados = []
+        objeto.forEach(function (elemento) {
+          // Faça algo com cada elemento, por exemplo, imprima o valor
+          vetor_dominios.push(elemento.nome_dominio)
+          vetor_dados_atuais.push(elemento.dado_grafico_atual)
+          vetor_dados_desejados.push(elemento.dado_grafico_desejado)
+        });
+      
+        data = [
+        {
+            type: 'scatterpolar',
+            r: vetor_dados_desejados,
+            theta: vetor_dominios,
+            fill: 'toself',
+            name: 'Classificação Desejada'
+          },
+          {
+            type: 'scatterpolar',
+            r: vetor_dados_atuais,
+            theta: vetor_dominios,
+            fill: 'toself',
+            name: 'Classificação Atual'
+          },
+          
+        ]
+      
+        layout = {
+          polar: {
+            radialaxis: {
+              visible: true,
+              range: [0, 4],
+              dtick: 1
+            }
+          }
+        }
+      
+        Plotly.newPlot("myDivDominio", data, layout)
+      
+      
+        var jsonString_fase = '{{ porcentagem_por_fase|escapejs }}';
+        console.log(jsonString_fase)
+        jsonString_fase = jsonString_fase.replace(/'/g, '"');
+        jsonString_fase = jsonString_fase.replace(/Decimal\("([\d.]+)"\)/g, '$1');
+        var objeto_fase = JSON.parse(jsonString_fase);
+        console.log(objeto_fase)
+        let vetor_fases = [], vetor_dados_fase = []
+        objeto_fase.forEach(function (elemento) {
+          // Faça algo com cada elemento, por exemplo, imprima o valor
+          vetor_fases.push(elemento.fase)
+          vetor_dados_fase.push(elemento.dado_grafico)
+        });
+      
+        console.log(vetor_fases)
+        console.log(vetor_dados_fase)
+      
+        data_fase = [
+        {
+            type: 'scatterpolar',
+            r: vetor_dados_fase,
+            theta: vetor_fases,
+            fill: 'toself',
+            name: 'Classificação Atual'
+          }
+          
+        ]
+      
+        layout_fase = {
+          polar: {
+            radialaxis: {
+              visible: true,
+              range: [0, 4],
+              dtick: 1
+            }
+          }
+        }
+        
+        Plotly.newPlot("myDivFase", data_fase, layout_fase)
+      </script>
+
+      <script>
+        $(document).ready(function () {
+          $('#Anterior_Botao').click(function (e) {
+            e.preventDefault(); // Impede que o link seja seguido imediatamente
+
+            // Envie o formulário usando AJAX
+            $.ajax({
+              url: $('#meuFormulario').attr('action'),
+              method: 'POST',
+              data: $('#meuFormulario').serialize(),
+              success: function (data) {
+                // O formulário foi enviado com sucesso, agora redirecione o usuário
+                window.location.href = '{% url "pergunta_por_dominio" paginacao.dominio_anterior %}';
+              },
+              error: function () {
+                // Lidar com erros, se houver
+                alert('Ocorreu um erro ao enviar o formulário.');
+              }
+            });
+          });
+        });
+      </script>
+
+            {% if paginacao.proximo_dominio != -1 %}
+            <!--<a id="Proximo_Botao" href="#"><button>{{paginacao.dominio_proximo_nom}}</button></a>-->
+            <a id="Proximo_Botao" href="#" type="button" class="btn btn-primary" style="color: white">Próximo</a>
+            <script>
+              $(document).ready(function () {
+                $('#Proximo_Botao').click(function (e) {
+                  e.preventDefault(); // Impede que o link seja seguido imediatamente
+
+                  // Envie o formulário usando AJAX
+                  $.ajax({
+                    url: $('#meuFormulario').attr('action'),
+                    method: 'POST',
+                    data: $('#meuFormulario').serialize(),
+                    success: function (data) {
+                      // O formulário foi enviado com sucesso, agora redirecione o usuário
+                      window.location.href = '{% url "pergunta_por_dominio" paginacao.proximo_dominio %}';
+                    },
+                    error: function () {
+                      // Lidar com erros, se houver
+                      alert('Ocorreu um erro ao enviar o formulário.');
+                    }
+                  });
+                });
+              });
+            </script>
+            {% endif %}
+</footer>
+
+</html>
