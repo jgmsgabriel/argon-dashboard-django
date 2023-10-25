@@ -12,13 +12,12 @@
     <div class="container-fluid">
         <div class="header-body">
             <div class="row align-items-center py-4">
-                <div class="col-lg-6 col-7">
+                <div class="col-lg-12 col-12">
                     <h6 class="h2 text-white d-inline-block mb-0">Self Assessment </h6>
                     <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                            <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-                            <li class="breadcrumb-item"><a href="#">Dashboards</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">SelfPage</li>
+                            <li class="breadcrumb-item"><a href="/home-portal.html"><i class="fas fa-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="/fase/">Self Assessment</a></li>
                         </ol>
                     </nav>
                 </div>
@@ -277,15 +276,15 @@
     {% endif %}
 
     <!-- Card stats -->
-    <div class="row">
-        <div class="col-xl-3 col-md-6">
-            <div class="card card-stats">
+    <div class="row align-items-stretch">
+        <div class="col-xl-3 col-md-6" >
+            <div class="card card-stats" style="height:85%;">
                 <!-- Card body -->
                 <div class="card-body">
                     <div class="row">
                         <div class="col">
-                            <h5 class="card-title text-uppercase text-muted mb-0">Organizational Maturity</h5>
-                            <span class="h2 font-weight-bold mb-0">{{ porcentagem_total.estado_cliente }}</span>
+                            <h5 class="card-title text-uppercase text-muted mb-0" style="font-size: 0.75rem;">Organizational Maturity</h5>
+                            <span class="h2 font-weight-bold mb-0" style="font-size: 1.2rem;">{{ porcentagem_total.estado_cliente }}</span>
                         </div>
                         <div class="col-auto">
                             <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
@@ -301,14 +300,14 @@
             </div>
         </div>
         {% for item in porcentagem_por_fase %}
-        <div class="col-xl-3 col-md-6">
-            <div class="card card-stats">
+        <div class="col-xl-3 col-md-6" >
+            <div class="card card-stats" style="height:85%;">
                 <!-- Card body -->
                 <div class="card-body">
                     <div class="row">
                         <div class="col">
-                            <h5 class="card-title text-uppercase text-muted mb-0">{{ item.fase }}</h5>
-                            <span class="h2 font-weight-bold mb-0">{{ item.estado_cliente }}</span>
+                            <h5 class="card-title text-uppercase text-muted mb-0" style="font-size: 0.75rem;">{{ item.fase }}</h5>
+                            <span class="h2 font-weight-bold mb-0" style="font-size: 1.2rem;">{{ item.estado_cliente }}</span>
                         </div>
 
                         {% if item.fase == 'Inform' %}
@@ -384,9 +383,9 @@
         </div>
         -->
     </div>
-    <div class="row">
+    <div class="row align-items-stretch">
         <div class="col-xl-8">
-            <div class="card">
+            <div class="card" style="height:95%;">
                 <div class="card-header border-0">
                     <div class="row align-items-center">
                         <div class="col">
@@ -394,140 +393,55 @@
                         </div>
                     </div>
                 </div>
-                <div class="table-responsive">
-                    <!-- Projects table -->
-                    <table class="table align-items-center table-flush">
-                        <thead class="thead-light">
-                            <tr>
-                                <th scope="col">Domain</th>
-                                <th scope="col">Key</th>
-                                <th scope="col">Level</th>
-                                <th scope="col">Mercado</th>
-                                <th scope="col"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <!-- Projects table -->
+                        <table class="table align-items-center table-flush">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">Domain</th>
+                                    <th scope="col">Key</th>
+                                    <th scope="col">Level</th>
+                                    <th scope="col">Mercado</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                            {% for item in home_respostas %}
-                            <tr>
-                                {% if item.indice > 4 %}
-                                <th scope="row" style="color:mediumseagreen">
-                                    {% elif item.indice > 2 %}
-                                <th scope="row" style="color: blueviolet">
-                                    {% else %}
-                                <th scope="row" style="color:dodgerblue">
-                                    {% endif %}
-                                    {{item.nome_dominio}}
-                                </th>
-                                <td>
-                                    {{item.estado_cliente}}
-                                </td>
-                                <td>
-                                    <i class="fas fa-arrow-up text-success mr-3"></i> {{ item.porcentagem }}%
-                                </td>
-                                <td>
-                                    60,0%
-                                </td>
-                                <td>
-                                    <a href="{% url 'pergunta_por_dominio' item.dominio_id %}"
-                                        class="btn btn-sm btn-dark">Update</a>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                            <!--
-                            <tr>
-                                <th scope="row" style="color:dodgerblue">
-                                    Performance Tracking & Benchmarking
-                                </th>
-                                <td>
-                                    Crawl
-                                </td>
-                                <td>
-                                    <i class="fas fa-arrow-up text-success mr-3"></i> 35,0%
-                                </td>
-                                <td>
-                                    45,0%
-                                </td>
-                                <td>
-                                    <a href="/perguntas.html" class="btn btn-sm btn-dark">Update</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row" style="color: blueviolet">
-                                    Real-Time Decision Making
-                                </th>
-                                <td>
-                                    Foundational
-                                </td>
-                                <td>
-                                    <i class="fas fa-arrow-up text-success mr-3"></i> 25,0%
-                                </td>
-                                <td>
-                                    40,0%
-                                </td>
-                                <td>
-                                    <a href="/perguntas.html" class="btn btn-sm btn-dark">Update</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row" style="color: blueviolet">
-                                    Cloud Usage & Optimization
-                                </th>
-                                <td>
-                                    Run
-                                </td>
-                                <td>
-                                    <i class="fas fa-arrow-up text-success mr-3"></i> 80,0%
-                                </td>
-                                <td>
-                                    80,0%
-                                </td>
-                                <td>
-                                    <a href="/perguntas.html" class="btn btn-sm btn-dark">Update</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row" style="color:mediumseagreen">
-                                    Organization Alignment
-                                </th>
-                                <td>
-                                    Crawl
-                                </td>
-                                <td>
-                                    <i class="fas fa-arrow-up text-success mr-3"></i> 35,0%
-                                </td>
-                                <td>
-                                    40,0%
-                                </td>
-                                <td>
-                                    <a href="/perguntas.html" class="btn btn-sm btn-dark">Update</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row" style="color:mediumseagreen">
-                                    Cloud Rate Optimization
-                                </th>
-                                <td>
-                                    Crawl
-                                </td>
-                                <td>
-                                    <i class="fas fa-arrow-up text-success mr-3"></i> 40,0%
-                                </td>
-                                <td>
-                                    30,0%
-                                </td>
-                                <td>
-                                    <a href="/perguntas.html" class="btn btn-sm btn-dark">Update</a>
-                                </td>
-                            </tr>
-                            -->
-                        </tbody>
-                    </table>
+                                {% for item in home_respostas %}
+                                <tr>
+                                    {% if item.indice > 4 %}
+                                    <th scope="row" style="color:mediumseagreen">
+                                        {% elif item.indice > 2 %}
+                                    <th scope="row" style="color: blueviolet">
+                                        {% else %}
+                                    <th scope="row" style="color:dodgerblue">
+                                        {% endif %}
+                                        {{item.nome_dominio}}
+                                    </th>
+                                    <td>
+                                        {{item.estado_cliente}}
+                                    </td>
+                                    <td>
+                                        <i class="fas fa-arrow-up text-success mr-3"></i> {{ item.porcentagem }}%
+                                    </td>
+                                    <td>
+                                        60,0%
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'pergunta_por_dominio' item.dominio_id %}"
+                                            class="btn btn-sm btn-dark">Update</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-xl-4">
-            <div class="card">
+            <div class="card" style="height:95%;">
                 <div class="card-header border-0">
                     <div class="row align-items-center">
                         <div class="col">
@@ -535,11 +449,15 @@
                         </div>
                     </div>
                 </div>
-                <div>
-                    <div id='myDivFase'><!-- Plotly chart will be drawn inside this DIV --></div>
+                <div class="card-body">
+                    <div>
+                        <div id='myDivFase'><!-- Plotly chart will be drawn inside this DIV --></div>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row align-items-stretch">
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header border-0">
