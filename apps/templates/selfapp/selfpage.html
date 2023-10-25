@@ -282,11 +282,11 @@
                 <!-- Card body -->
                 <div class="card-body">
                     <div class="row">
-                        <div class="col">
-                            <h5 class="card-title text-uppercase text-muted mb-0" style="font-size: 0.75rem;">Organizational Maturity</h5>
+                        <div class="col-md-8">
+                            <h5 class="card-title text-uppercase text-muted mb-0" style="font-size: 0.7rem;">Organizational Maturity</h5>
                             <span class="h2 font-weight-bold mb-0" style="font-size: 1.2rem;">{{ porcentagem_total.estado_cliente }}</span>
                         </div>
-                        <div class="col-auto">
+                        <div class="col-md-4">
                             <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
                                 <i class="ni ni-active-40"></i>
                             </div>
@@ -305,25 +305,25 @@
                 <!-- Card body -->
                 <div class="card-body">
                     <div class="row">
-                        <div class="col">
-                            <h5 class="card-title text-uppercase text-muted mb-0" style="font-size: 0.75rem;">{{ item.fase }}</h5>
+                        <div class="col-md-8">
+                            <h5 class="card-title text-uppercase text-muted mb-0" style="font-size: 0.7rem;">{{ item.fase }}</h5>
                             <span class="h2 font-weight-bold mb-0" style="font-size: 1.2rem;">{{ item.estado_cliente }}</span>
                         </div>
 
                         {% if item.fase == 'Inform' %}
-                        <div class="col-auto">
+                        <div class="col-md-4">
                             <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
                                 <i class="ni ni-chart-pie-35"></i>
                             </div>
                         </div>
                         {% elif item.fase == 'Optimize' %}
-                        <div class="col-auto">
+                        <div class="col-md-4">
                             <div class="icon icon-shape bg-gradient-purple text-white rounded-circle shadow">
                                 <i class="ni ni-money-coins"></i>
                             </div>
                         </div>
                         {% else %}
-                        <div class="col-auto">
+                        <div class="col-md-4">
                             <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
                                 <i class="ni ni-chart-bar-32"></i>
                             </div>
