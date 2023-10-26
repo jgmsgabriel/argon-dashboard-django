@@ -24,6 +24,8 @@ class Dominio(models.Model):
 class Pergunta(models.Model):
     text_pergunta = models.TextField(max_length=300)
     dominio_id = models.ForeignKey("Dominio", on_delete=models.CASCADE, related_name='dominio')
+    descricao = models.TextField(max_length=300,null=True,default="Descrição - Pergunta")
+    link_doc = models.TextField(max_length=300,null=True,default="https://www.z-act.io/")
 
     def __str__(self):
         return self.text_pergunta

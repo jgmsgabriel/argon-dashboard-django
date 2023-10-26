@@ -285,6 +285,8 @@ def list_pergunta(request, id):
         obj = {
                 "Pergunta": item,
                 "Alternativas":alternativas_item,
+                "Descricao":item.descricao,
+                "Link":item.link_doc,
                 "Historico": ""
             }
         if(todas_respostas):
@@ -292,6 +294,8 @@ def list_pergunta(request, id):
             obj = {
                     "Pergunta": item,
                     "Alternativas": alternativas_item,
+                    "Descricao":item.descricao,
+                    "Link":item.link_doc,
                     "Historico": historico
                 }
         
